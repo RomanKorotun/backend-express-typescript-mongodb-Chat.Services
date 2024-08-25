@@ -22,6 +22,8 @@ const googleAuth = async (req: ICustomeRequest, res: Response) => {
     expiresIn: TOKEN_TIME,
   });
   await User.findByIdAndUpdate(id, { token });
-  return res.redirect(`http://localhost:3000?token=${token}`);
+  return res.redirect(
+    `https://test-task-backend-reenbit.onrender.com?token=${token}`
+  );
 };
 export default googleAuth;

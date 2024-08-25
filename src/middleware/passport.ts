@@ -12,7 +12,8 @@ if (GOOGLE_CLIENT_ID && GOOGLE_CLIENT_SECRET) {
       {
         clientID: GOOGLE_CLIENT_ID,
         clientSecret: GOOGLE_CLIENT_SECRET,
-        callbackURL: "http://localhost:3030/api/auth/google-redirect",
+        callbackURL:
+          "https://test-task-backend-reenbit.onrender.com/api/auth/google-redirect",
         passReqToCallback: true,
       },
       async (
