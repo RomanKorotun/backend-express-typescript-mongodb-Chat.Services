@@ -23,7 +23,7 @@ const googleAuth = async (req: ICustomeRequest, res: Response) => {
   });
   await User.findByIdAndUpdate(id, { token });
   return res.redirect(
-    `https://test-task-backend-reenbit.onrender.com?token=${token}`
+    `https://romankorotun.github.io/test-task-frontend-Reenbit?token=${token}`
   );
 };
 export default googleAuth;
