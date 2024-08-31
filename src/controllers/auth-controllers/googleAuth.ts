@@ -3,6 +3,13 @@ import jwt from "jsonwebtoken";
 import "dotenv/config.js";
 import { HttpError } from "../../helpers/index.js";
 import User from "../../models/User.js";
+import Chat from "../../models/Chat.js";
+
+interface IListUsers {
+  firstName: string;
+  lastName: string;
+  isActive: boolean;
+}
 
 interface ICustomeRequest extends Request {
   user?: any;
@@ -21,7 +28,40 @@ const googleAuth = async (req: ICustomeRequest, res: Response) => {
   const token = jwt.sign(payload, TOKEN_SECRET, {
     expiresIn: TOKEN_TIME,
   });
-  await User.findByIdAndUpdate(id, { token });
+
+  const updateNewUser = await User.findByIdAndUpdate(id, { token });
+
+  const listUsers: IListUsers[] = [
+    {
+      firstName: "Roman",
+      lastName: "Korotun",
+      isActive: true,
+    },
+    {
+      firstName: "Oleg",
+      lastName: "Korotun",
+      isActive: false,
+    },
+    {
+      firstName: "Yuriy",
+      lastName: "Korotun",
+      isActive: false,
+    },
+  ];
+
+  await Promise.allSettled(
+    listUsers.map(async (user) => {
+      return await Chat.create({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        isActive: user.isActive,
+        avatar:
+          "https://res.cloudinary.com/drqeo1pu5/image/upload/v1723481110/psychologists.services/avatars/avatar_default_jpg_beamoi.jpg",
+        owner: { email: updateNewUser?.email, _id: updateNewUser?._id },
+      });
+    })
+  );
+
   return res.redirect(
     `https://romankorotun.github.io/test-task-frontend-Reenbit/register?token=${token}`
   );

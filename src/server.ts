@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import app from "./app.js";
+import server from "./app.js";
 import "dotenv/config.js";
 
 const { DB_HOST, PORT = 3030 } = process.env;
@@ -9,7 +9,7 @@ if (DB_HOST) {
     .connect(DB_HOST)
     .then(() => {
       console.log("Database connect success");
-      app.listen(PORT, () => {
+      server.listen(PORT, () => {
         console.log(`Server running on ${PORT} PORT`);
       });
     })

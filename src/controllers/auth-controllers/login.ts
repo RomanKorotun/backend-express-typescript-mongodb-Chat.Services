@@ -4,6 +4,7 @@ import "dotenv/config.js";
 import jwt from "jsonwebtoken";
 import User from "../../models/User.js";
 import { HttpError } from "../../helpers/index.js";
+import Chat from "../../models/Chat.js";
 
 const { TOKEN_SECRET, TOKEN_TIME } = process.env;
 
@@ -31,10 +32,13 @@ const login = async (req: Request, res: Response) => {
 
   const updateUser = await User.findOneAndUpdate({ email }, { token });
 
+  const chats = await Chat.find({ "owner._id": user._id });
+
   res.json({
     username: updateUser?.username,
     avatar: updateUser?.avatar,
     token: updateUser?.token,
+    chats,
   });
 };
 export default login;

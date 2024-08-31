@@ -8,7 +8,6 @@ const isValidBody = (schema: Schema) => {
     if (error) {
       return next(HttpError(400, error.message));
     }
-    console.log("isValidBody Next");
     next();
   };
   return func;

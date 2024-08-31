@@ -4,6 +4,13 @@ import { HttpError } from "../../helpers/index.js";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import "dotenv/config.js";
+import Chat from "../../models/Chat.js";
+
+interface IListUsers {
+  firstName: string;
+  lastName: string;
+  isActive: boolean;
+}
 
 const { TOKEN_SECRET, TOKEN_TIME } = process.env;
 
@@ -21,7 +28,6 @@ const register = async (req: Request, res: Response) => {
     "https://res.cloudinary.com/drqeo1pu5/image/upload/v1723481110/psychologists.services/avatars/avatar_default_jpg_beamoi.jpg";
 
   const hashPassword = await bcryptjs.hash(password, 10);
-  console.log(hashPassword);
 
   const newUser = await User.create({
     ...req.body,
@@ -40,11 +46,45 @@ const register = async (req: Request, res: Response) => {
     token,
   });
 
+  const listUsers: IListUsers[] = [
+    {
+      firstName: "Roman",
+      lastName: "Korotun",
+      isActive: true,
+    },
+    {
+      firstName: "Oleg",
+      lastName: "Korotun",
+      isActive: false,
+    },
+    {
+      firstName: "Yuriy",
+      lastName: "Korotun",
+      isActive: false,
+    },
+  ];
+
+  await Promise.allSettled(
+    listUsers.map(async (user) => {
+      return await Chat.create({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        isActive: user.isActive,
+        avatar:
+          "https://res.cloudinary.com/drqeo1pu5/image/upload/v1723481110/psychologists.services/avatars/avatar_default_jpg_beamoi.jpg",
+        owner: { email: updateNewUser?.email, _id: updateNewUser?._id },
+      });
+    })
+  );
+
+  const listChatsResponse = await Chat.find({ "owner.email": email });
+
   res.json({
     username: updateNewUser?.username,
     email: updateNewUser?.email,
     avatar: updateNewUser?.avatar,
     token: updateNewUser?.token,
+    chats: listChatsResponse,
   });
 };
 export default register;
