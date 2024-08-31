@@ -35,7 +35,7 @@ const googleAuth = async (req: ICustomeRequest, res: Response) => {
     {
       firstName: "Roman",
       lastName: "Korotun",
-      isActive: true,
+      isActive: false,
     },
     {
       firstName: "Oleg",
@@ -45,7 +45,7 @@ const googleAuth = async (req: ICustomeRequest, res: Response) => {
     {
       firstName: "Yuriy",
       lastName: "Korotun",
-      isActive: false,
+      isActive: true,
     },
   ];
 
