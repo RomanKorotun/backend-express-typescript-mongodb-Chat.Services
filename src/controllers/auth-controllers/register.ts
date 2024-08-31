@@ -50,7 +50,7 @@ const register = async (req: Request, res: Response) => {
     {
       firstName: "Roman",
       lastName: "Korotun",
-      isActive: true,
+      isActive: false,
     },
     {
       firstName: "Oleg",
@@ -60,7 +60,7 @@ const register = async (req: Request, res: Response) => {
     {
       firstName: "Yuriy",
       lastName: "Korotun",
-      isActive: false,
+      isActive: true,
     },
   ];
 
