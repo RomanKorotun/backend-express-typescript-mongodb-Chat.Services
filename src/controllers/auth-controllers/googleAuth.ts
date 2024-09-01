@@ -31,7 +31,7 @@ const googleAuth = async (req: ICustomeRequest, res: Response) => {
 
   const updateNewUser = await User.findByIdAndUpdate(id, { token });
 
-  const listChats = await Chat.find({ "owner._id": updateNewUser?._id });
+  const listChats = await Chat.find({ owner: updateNewUser?._id });
 
   if (listChats.length === 0) {
     const listUsers: IListUsers[] = [
@@ -60,7 +60,7 @@ const googleAuth = async (req: ICustomeRequest, res: Response) => {
           isActive: user.isActive,
           avatar:
             "https://res.cloudinary.com/drqeo1pu5/image/upload/v1723481110/psychologists.services/avatars/avatar_default_jpg_beamoi.jpg",
-          owner: { email: updateNewUser?.email, _id: updateNewUser?._id },
+          owner: updateNewUser?._id,
         });
       })
     );

@@ -32,7 +32,7 @@ const login = async (req: Request, res: Response) => {
 
   const updateUser = await User.findOneAndUpdate({ email }, { token });
 
-  const chats = await Chat.find({ "owner._id": user._id });
+  const chats = await Chat.find({ owner: user._id });
 
   res.json({
     username: updateUser?.username,

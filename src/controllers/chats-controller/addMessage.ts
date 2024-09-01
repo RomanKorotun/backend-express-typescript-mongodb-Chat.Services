@@ -12,7 +12,7 @@ const addMessage = async (req: ICustomeRequest, res: Response) => {
   const { id } = req.params;
   const { message } = req.body;
   const updateChat = await Chat.findOneAndUpdate(
-    { _id: id, "owner._id": _id },
+    { _id: id, owner: _id },
     { $push: { messages: { owner: id, message, date: new Date() } } }
   );
   res.json(updateChat);
@@ -22,7 +22,7 @@ const addMessage = async (req: ICustomeRequest, res: Response) => {
 
   setTimeout(async () => {
     const updateQuoteChat = await Chat.findOneAndUpdate(
-      { _id: id, "owner._id": _id },
+      { _id: id, owner: _id },
       { $push: { messages: { message: data.quoteText, date: new Date() } } }
     );
     wsServer.emit("quoteResponse", updateQuoteChat);

@@ -72,12 +72,12 @@ const register = async (req: Request, res: Response) => {
         isActive: user.isActive,
         avatar:
           "https://res.cloudinary.com/drqeo1pu5/image/upload/v1723481110/psychologists.services/avatars/avatar_default_jpg_beamoi.jpg",
-        owner: { email: updateNewUser?.email, _id: updateNewUser?._id },
+        owner: updateNewUser?._id,
       });
     })
   );
 
-  const listChatsResponse = await Chat.find({ "owner.email": email });
+  const listChatsResponse = await Chat.find({ owner: newUser._id });
 
   res.json({
     username: updateNewUser?.username,

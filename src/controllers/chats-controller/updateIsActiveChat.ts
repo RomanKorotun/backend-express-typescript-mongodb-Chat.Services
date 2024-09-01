@@ -8,11 +8,11 @@ interface ICustomeRequest extends Request {
 const updateIsActiveChat = async (req: ICustomeRequest, res: Response) => {
   const { id } = req.params;
   await Chat.findOneAndUpdate(
-    { "owner._id": req.user._id, isActive: true },
+    { owner: req.user._id, isActive: true },
     { isActive: false }
   );
-  await Chat.findOneAndUpdate({ "owner._id": req.user._id, _id: id }, req.body);
-  const allChats = await Chat.find({ "owner._id": req.user._id });
+  await Chat.findOneAndUpdate({ owner: req.user._id, _id: id }, req.body);
+  const allChats = await Chat.find({ owner: req.user._id });
   res.json({ chats: allChats });
 };
 

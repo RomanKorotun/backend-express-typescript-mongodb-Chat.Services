@@ -6,37 +6,36 @@ import {
 } from "./hooks.js";
 import Joi from "joi";
 
-interface ICustomeDocument extends Document {
+interface ICustomeChatDocument extends Document {
   firstName: string;
   lastName: string;
   avatar: string;
   isActive: boolean;
   messages: {
     owner?: Schema.Types.ObjectId;
-    ref: "user";
-    message: string;
-    date: string;
+    message?: string;
+    date?: string;
   }[];
-  owner: { _id: mongoose.Types.ObjectId; email: string };
+  owner: Schema.Types.ObjectId;
 }
 
-const ChatsSchema = new Schema<ICustomeDocument>(
+const MessageSchema = new Schema({
+  owner: { type: Schema.Types.ObjectId, ref: "user" },
+  message: { type: String },
+  date: { type: String },
+});
+
+const ChatsSchema = new Schema<ICustomeChatDocument>(
   {
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     isActive: { type: Boolean, required: true },
     avatar: { type: String, required: true },
-    messages: [
-      {
-        owner: { type: Schema.Types.ObjectId, ref: "user" },
-        message: { type: String, required: true },
-        date: { type: String },
-      },
-    ],
-    owner: {
-      _id: { type: Schema.Types.ObjectId, ref: "user", required: true },
-      email: { type: String, required: true },
+    messages: {
+      type: [MessageSchema],
+      required: true,
     },
+    owner: { type: Schema.Types.ObjectId, ref: "user", required: true },
   },
   { versionKey: false, timestamps: true }
 );
@@ -58,6 +57,6 @@ ChatsSchema.post("save", handleSaveError);
 ChatsSchema.pre("findOneAndUpdate", handleAddSettings);
 ChatsSchema.post("findOneAndUpdate", handleFindOneAndUpdateError);
 
-const Chat = model<ICustomeDocument>("chat", ChatsSchema);
+const Chat = model<ICustomeChatDocument>("chat", ChatsSchema);
 
 export default Chat;

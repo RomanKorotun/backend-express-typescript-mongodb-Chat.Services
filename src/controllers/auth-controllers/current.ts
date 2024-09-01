@@ -7,7 +7,7 @@ interface ICustomeRequest extends Request {
 
 const current = async (req: ICustomeRequest, res: Response) => {
   const { username, avatar } = req.user;
-  const chats = await Chat.find({ "owner._id": req.user._id });
+  const chats = await Chat.find({ owner: req.user._id });
   res.json({ username, avatar, chats });
 };
 export default current;
