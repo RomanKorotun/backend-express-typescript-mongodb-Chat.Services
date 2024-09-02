@@ -45,6 +45,11 @@ export const addChatSchema = Joi.object({
   lastName: Joi.string().required(),
 });
 
+export const editChatSchema = Joi.object({
+  firstName: Joi.string(),
+  lastName: Joi.string(),
+});
+
 export const updateIsActiveChatSchema = Joi.object({
   isActive: Joi.boolean().required(),
 });

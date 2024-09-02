@@ -8,12 +8,15 @@ import ctrlWrapper from "../../decorators/ctrlWrapper.js";
 import {
   addChat,
   addMessage,
+  deleteChat,
+  editChat,
   updateIsActiveChat,
 } from "../../controllers/chats-controller/index.js";
 import { isValidBody } from "../../decorators/index.js";
 import {
   addChatSchema,
   addMessageSchema,
+  editChatSchema,
   updateIsActiveChatSchema,
 } from "../../models/Chat.js";
 
@@ -37,12 +40,23 @@ chatsRouter.patch(
 );
 
 chatsRouter.put(
-  "/:id",
+  "/:id/addmessage",
   authenticate,
   isValidId,
   isEmptyBody,
   isValidBody(addMessageSchema),
   ctrlWrapper(addMessage)
 );
+
+chatsRouter.put(
+  "/:id/editchat",
+  authenticate,
+  isValidId,
+  isEmptyBody,
+  isValidBody(editChatSchema),
+  ctrlWrapper(editChat)
+);
+
+chatsRouter.delete("/:id", authenticate, isValidId, ctrlWrapper(deleteChat));
 
 export default chatsRouter;
