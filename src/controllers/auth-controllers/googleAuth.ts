@@ -67,7 +67,7 @@ const googleAuth = async (req: ICustomeRequest, res: Response) => {
   }
 
   return res.redirect(
-    `https://romankorotun.github.io/test-task-frontend-Reenbit/register?token=${token}`
+    `https://romankorotun.github.io/frontend-react-typescript-Chat.Services/register?token=${token}`
   );
 };
 export default googleAuth;
